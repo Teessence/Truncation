@@ -1,0 +1,29 @@
+[
+    {
+        "Id": 1,
+        "TextId": 1,
+        "Text": "BREAKING: MCAFEE UNVEILS AI DEEPFAKE IMAGE DETECTION ON YAHOO NEWS. LEARN MORE ABOUT HOW MCAFEE HELPS KEEP YOU SAFE.",
+        "X": 1180,
+        "Y": 107,
+        "Width": 1065,
+        "Height": 30
+    },
+    {
+        "Id": 2,
+        "TextId": 2,
+        "Text": "See Plans",
+        "X": 300,
+        "Y": 1110,
+        "Width": 179,
+        "Height": 68
+    },
+    {
+        "Id": 3,
+        "TextId": 3,
+        "Text": "Single User",
+        "X": 1546,
+        "Y": 3450,
+        "Width": 354,
+        "Height": 52
+    }
+]

@@ -24,4 +24,10 @@
     <ProjectReference Include="..\Truncation\Truncation.csproj" />
   </ItemGroup>
 
+    <ItemGroup>
+      <None Update="TestCases\**">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
