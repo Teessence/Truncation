@@ -61,5 +61,14 @@
         "Y": 6494,
         "Width": 159,
         "Height": 38
+    },
+    {
+        "Id": 8,
+        "TextId": 8,
+        "Text": "Worry-free, all-in-one online protection for your privacy",
+        "X": 280,
+        "Y": 678,
+        "Width": 685,
+        "Height": 257
     }
 ]

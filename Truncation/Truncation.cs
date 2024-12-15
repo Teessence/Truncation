@@ -211,28 +211,37 @@ namespace Truncation
         public static List<TextSegment> RunOpticalCharacterRecognition(string ScreenshotPath, List<TextSegment> TextSegments, List<List<Func<Bitmap, Bitmap>>> FunctionGroups)
         {
             byte[] imageBytes = File.ReadAllBytes(ScreenshotPath);
+            List<TextSegment> TextSegmentsReturnable = new List<TextSegment>();
 
-            List<TextSegment> TextSegmentsReturnable = [];
-
-            foreach (TextSegment ts in TextSegments)
+            using (MemoryStream ms = new MemoryStream(imageBytes))
             {
-                bool IsTextSegmentTruncated = true;
+                Bitmap originalImage = new Bitmap(ms);
 
-                foreach (var functionGroup in FunctionGroups)
+                Parallel.ForEach(TextSegments, ts =>
                 {
-                    using (MemoryStream ms = new MemoryStream(imageBytes))
+                    bool IsTextSegmentTruncated = true;
+
+                    Bitmap threadSafeImage;
+
+                    lock (originalImage)
                     {
-                        using (Bitmap originalImage = new Bitmap(ms))
+                        threadSafeImage = new Bitmap(originalImage);
+                    }
+
+                    Rectangle cropArea = new Rectangle(ts.X, ts.Y, ts.Width, ts.Height);
+
+                    using (Bitmap croppedImage = threadSafeImage.Clone(cropArea, threadSafeImage.PixelFormat))
+                    {
+                        foreach (var functionGroup in FunctionGroups)
                         {
-                            Rectangle cropArea = new Rectangle(ts.X, ts.Y, ts.Width, ts.Height);
-                            Bitmap croppedImage = originalImage.Clone(cropArea, originalImage.PixelFormat);
+                            Bitmap transformedImage = croppedImage;
 
                             foreach (var function in functionGroup)
                             {
-                                croppedImage = function(croppedImage);
+                                transformedImage = function(transformedImage);
                             }
 
-                            byte[] byteArray = ImageToByteArray(croppedImage);
+                            byte[] byteArray = ImageToByteArray(transformedImage);
 
                             var ReceivedString = RunOpticalCharacterRecognition(byteArray, ts.Text);
 
@@ -243,16 +252,20 @@ namespace Truncation
                             }
                         }
                     }
-                }
 
-                if (IsTextSegmentTruncated)
-                {
-                    TextSegmentsReturnable.Add(ts);
-                }
+                    if (IsTextSegmentTruncated)
+                    {
+                        lock (TextSegmentsReturnable)
+                        {
+                            TextSegmentsReturnable.Add(ts);
+                        }
+                    }
+                });
             }
 
             return TextSegmentsReturnable;
         }
+
 
         public static List<int> Analyze(string ScreenshotPath, List<TextSegment> TextSegments)
         {
