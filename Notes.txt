@@ -1,0 +1,21 @@
+Create database for things such as:
+
+    `A` => 'eng', 'pl' etc
+    `Ż` => 'pl' etc
+
+https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html
+
+Languages
+Id, LanguageCode, MD5
+1, eng, 32hash
+2, pol, 32hash
+
+CharacterLanguageMapping
+CharacterId, LanguageId
+1, 1
+1, 2
+
+Characters
+Id, Character, MD5
+1, A, 32hash
+

@@ -89,13 +89,10 @@ namespace Truncation
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                // Save the image into the memory stream as PNG (you can use other formats like JPEG, BMP, etc.)
                 image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                return ms.ToArray(); // Return the byte array
+                return ms.ToArray();
             }
         }
-
-
 
         //TODO
         // Replace similar such as i, 1 with l
@@ -148,7 +145,6 @@ namespace Truncation
 
             return true;
         }
-
 
         // TargetString: Text from Screenshot, SourceString: Text from OCR 
         public static bool IsTruncated(string TargetString, string SourceString)
@@ -208,6 +204,24 @@ namespace Truncation
             return doubledBitmap;
         }
 
+        public static void SaveBitmapToDisk(Bitmap bitmap, string filePath)
+        {
+            try
+            {
+                bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while saving the image: " + ex.Message);
+            }
+        }
+
+        public static Bitmap RotateImage(Bitmap image)
+        {
+            image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            return image;
+        }
+
         public static List<TextSegment> RunOpticalCharacterRecognition(string ScreenshotPath, List<TextSegment> TextSegments, List<List<Func<Bitmap, Bitmap>>> FunctionGroups)
         {
             byte[] imageBytes = File.ReadAllBytes(ScreenshotPath);
@@ -234,11 +248,14 @@ namespace Truncation
                     {
                         foreach (var functionGroup in FunctionGroups)
                         {
+                            var nameOfFile = "";
+
                             Bitmap transformedImage = croppedImage;
 
                             foreach (var function in functionGroup)
                             {
                                 transformedImage = function(transformedImage);
+                                nameOfFile += function.Method.Name;
                             }
 
                             byte[] byteArray = ImageToByteArray(transformedImage);
@@ -250,6 +267,13 @@ namespace Truncation
                                 IsTextSegmentTruncated = false;
                                 break;
                             }
+
+                            if (nameOfFile == "")
+                            {
+                                nameOfFile = "original_" + ts.Id.ToString() + "_";
+                            }
+
+                            SaveBitmapToDisk(transformedImage, nameOfFile + ".png");
                         }
                     }
 
@@ -266,21 +290,18 @@ namespace Truncation
             return TextSegmentsReturnable;
         }
 
-
         public static List<int> Analyze(string ScreenshotPath, List<TextSegment> TextSegments)
         {
             Size ScreenshotSize = GetScreenshotSize(ScreenshotPath);
             TextSegments = DeleteTextSegmentsFullyOutsideOfBounds(ScreenshotSize, TextSegments);
             TextSegments = AdjustTextSegmentsPartiallyOutsideOfBounds(ScreenshotSize, TextSegments);
 
-            List<Func<Bitmap, Bitmap>> emptyGroup = new List<Func<Bitmap, Bitmap>>();
-            List<Func<Bitmap, Bitmap>> group1 = new List<Func<Bitmap, Bitmap>> { ProcessBitmapToGrayscaleAndInvert, DoubleBitmapSize };
-
-            List<List<Func<Bitmap, Bitmap>>> listOfFunctionLists = new List<List<Func<Bitmap, Bitmap>>>
-            {
-                emptyGroup,
-                group1
-            };
+            List<List<Func<Bitmap, Bitmap>>> listOfFunctionLists =
+            [
+                [],
+                [ProcessBitmapToGrayscaleAndInvert, DoubleBitmapSize],
+                [ProcessBitmapToGrayscaleAndInvert, DoubleBitmapSize, RotateImage]
+            ];
 
             TextSegments = RunOpticalCharacterRecognition(ScreenshotPath, TextSegments, listOfFunctionLists);
             return TextSegments.Select(obj => obj.Id).ToList();

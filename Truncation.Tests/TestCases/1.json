@@ -70,5 +70,14 @@
         "Y": 678,
         "Width": 685,
         "Height": 257
+    },
+    {
+        "Id": 9,
+        "TextId": 9,
+        "Text": "Feedback",
+        "X": 3381,
+        "Y": 451,
+        "Width": 52,
+        "Height": 179
     }
 ]
