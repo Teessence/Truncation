@@ -25,5 +25,41 @@
         "Y": 3450,
         "Width": 354,
         "Height": 52
+    },
+    {
+        "Id": 4,
+        "TextId": 4,
+        "Text": "McAfee® Total Protection",
+        "X": 1286,
+        "Y": 7053,
+        "Width": 221,
+        "Height": 38
+    },
+    {
+        "Id": 5,
+        "TextId": 5,
+        "Text": "McAfee+™ Individual",
+        "X": 1295,
+        "Y": 6987,
+        "Width": 221,
+        "Height": 38
+    },
+    {
+        "Id": 6,
+        "TextId": 6,
+        "Text": "Download on the App Store",
+        "X": 2270,
+        "Y": 6971,
+        "Width": 165,
+        "Height": 60
+    },
+    {
+        "Id": 7,
+        "TextId": 7,
+        "Text": "Continue Reading",
+        "X": 1035,
+        "Y": 6494,
+        "Width": 159,
+        "Height": 38
     }
 ]
