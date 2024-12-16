@@ -5,10 +5,10 @@ Create database for things such as:
 
 https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html
 
-Languages
-Id, LanguageCode, MD5
-1, eng, 32hash
-2, pol, 32hash
+TesseractLanguages
+Id, LanguageCode, Priority, LangaugeCode_MD5
+1, eng, 1, 32hash
+2, pol, 2, 32hash
 
 CharacterLanguageMapping
 CharacterId, LanguageId
@@ -16,6 +16,6 @@ CharacterId, LanguageId
 1, 2
 
 Characters
-Id, Character, MD5
+Id, Character, Character_MD5
 1, A, 32hash
 
