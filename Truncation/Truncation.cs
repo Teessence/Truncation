@@ -111,6 +111,147 @@ namespace Truncation
                 Console.WriteLine("filename: " + fileName);
                 InsertIntoTesseractLanguages(fileName, 0);
             }
+
+
+            string[] filesTraining = Directory.GetFiles(@"Training", "*.txt");
+            foreach (string file in filesTraining)
+            {
+                Console.WriteLine("trainingfile: " + file);
+                string trainingfilefilename = Path.GetFileNameWithoutExtension(file);
+                Console.WriteLine("trainingfilefilename: " + trainingfilefilename);
+
+                int IdOfLanguage = GetIdOfLanguage(trainingfilefilename);
+
+
+                Console.WriteLine("IdOfLanguage: " + IdOfLanguage);
+
+
+                string fileContents = File.ReadAllText(file);
+
+                foreach (char c in fileContents)
+                {
+                    if (char.IsWhiteSpace(c))
+                    {
+                        continue;  // Skip to the next character
+                    }
+                    SaveCharacter(c, IdOfLanguage);
+                    Console.WriteLine(c);
+                }
+
+            }
+        }
+
+        static void SaveCharacter(char c, int IdOfLanguage)
+        {
+            string connectionString = $"Data Source=Database.db;";  // Your SQLite connection string
+
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Check if character exists in the Characters table
+                    int characterId = GetCharacterId(connection, c);
+
+                    // If the character does not exist, insert it
+                    if (characterId == -1)
+                    {
+                        characterId = InsertCharacter(connection, c);
+                    }
+
+                    // Insert into CharacterLanguageMapping table
+                    InsertCharacterLanguageMapping(connection, characterId, IdOfLanguage);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+        // Helper function to check if the character exists in the Characters table
+        static int GetCharacterId(SqliteConnection connection, char c)
+        {
+            string query = "SELECT Id FROM Characters WHERE Character = @Character";
+
+            using (SqliteCommand command = new SqliteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Character", c);
+
+                var result = command.ExecuteScalar();
+                return result != null ? Convert.ToInt32(result) : -1;  // Return -1 if not found
+            }
+        }
+
+        // Helper function to insert a new character into the Characters table
+        static int InsertCharacter(SqliteConnection connection, char c)
+        {
+            string query = "INSERT INTO Characters (Character) VALUES (@Character); SELECT last_insert_rowid();";
+
+            using (SqliteCommand command = new SqliteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Character", c);
+
+                var result = command.ExecuteScalar();
+                return Convert.ToInt32(result);  // Return the newly inserted CharacterId
+            }
+        }
+
+        // Helper function to insert into the CharacterLanguageMapping table
+        static void InsertCharacterLanguageMapping(SqliteConnection connection, int characterId, int languageId)
+        {
+            string query = "INSERT INTO CharacterLanguageMapping (CharacterId, LanguageId) VALUES (@CharacterId, @LanguageId)";
+
+            using (SqliteCommand command = new SqliteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@CharacterId", characterId);
+                command.Parameters.AddWithValue("@LanguageId", languageId);
+
+                int rowsAffected = command.ExecuteNonQuery();
+                Console.WriteLine($"{rowsAffected} row(s) inserted into CharacterLanguageMapping.");
+            }
+        }
+
+        static int GetIdOfLanguage(string Language)
+        {
+            string connectionString = $"Data Source=Database.db;";  // Your connection string
+
+            // Initialize the result ID to -1 (in case the language is not found)
+            int languageId = -1;
+
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // SQL query to fetch the ID of the language by LanguageCode
+                    string query = "SELECT Id FROM TesseractLanguages WHERE LanguageCode = @LanguageCode;";
+
+                    using (SqliteCommand command = new SqliteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@LanguageCode", Language);
+
+                        // Execute the query and retrieve the result
+                        var result = command.ExecuteScalar();
+
+                        // Check if a result was returned
+                        if (result != null)
+                        {
+                            // Parse the result to integer
+                            languageId = Convert.ToInt32(result);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+            // Return the language ID (or -1 if not found)
+            return languageId;
         }
 
         static void InsertIntoTesseractLanguages(string languageCode, int priority)
@@ -123,7 +264,6 @@ namespace Truncation
                 {
                     connection.Open();
 
-                    // SQL INSERT statement
                     string query = "INSERT INTO TesseractLanguages (LanguageCode, Priority) VALUES (@LanguageCode, @Priority);";
 
                     using (SqliteCommand command = new SqliteCommand(query, connection))
@@ -133,7 +273,6 @@ namespace Truncation
                         int rowsAffected = command.ExecuteNonQuery();
                         Console.WriteLine($"{rowsAffected} row(s) inserted successfully.");
                     }
-
                 }
             }
             catch (Exception ex)
@@ -146,7 +285,7 @@ namespace Truncation
         {
             testSomething();
             Console.WriteLine("Done2");
-           // return null;
+            // return null;
 
             Size ScreenshotSize = ImageOperations.GetScreenshotSize(ScreenshotPath);
             TextSegments = DeleteTextSegmentsFullyOutsideOfBounds(ScreenshotSize, TextSegments);

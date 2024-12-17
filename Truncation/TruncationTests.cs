@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using NUnit.Framework;
 
 namespace Truncation.Tests
 {
