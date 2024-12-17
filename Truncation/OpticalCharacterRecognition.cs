@@ -11,7 +11,7 @@ namespace Truncation
         // Write tests for it
         public static string GetTesseractEngineLanguageByTargetString(string TargetString)
         {
-            var uniqueCharacters = GetUniqueCharacters(TargetString);
+            var uniqueCharacters = StringOperations.GetUniqueCharacters(TargetString);
 
             List<string> TesseractLanguages = [];
 
@@ -78,19 +78,6 @@ namespace Truncation
             }
 
             return returnable;
-        }
-
-        static HashSet<char> GetUniqueCharacters(string input)
-        {
-            var uniqueChars = new HashSet<char>();
-
-            foreach (char c in input)
-            {
-                char lowerChar = char.ToLowerInvariant(c);
-                uniqueChars.Add(lowerChar);
-            }
-
-            return uniqueChars;
         }
 
         //TODO

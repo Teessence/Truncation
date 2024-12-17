@@ -73,5 +73,18 @@ namespace Truncation
 
             return characterCounts;
         }
+
+        public static HashSet<char> GetUniqueCharacters(string input)
+        {
+            var uniqueChars = new HashSet<char>();
+
+            foreach (char c in input)
+            {
+                char lowerChar = char.ToLowerInvariant(c);
+                uniqueChars.Add(lowerChar);
+            }
+
+            return uniqueChars;
+        }
     }
 }
