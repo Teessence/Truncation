@@ -2,6 +2,18 @@ namespace Truncation
 {
     public class StringOperations
     {
+        public static List<(string[] targets, string replacement)> replacements = new List<(string[] targets, string replacement)>
+            {
+                (new[] { "ż", "ź" }, "z"),
+                (new[] { "á", "ą" }, "a"),
+                (new[] { "é", "ę" }, "e"),
+                (new[] { "ö", "ó" }, "o"),
+                (new[] { "ć" }, "c"),
+                (new[] { "ń" }, "n"),
+                (new[] { "ś", "$" }, "s"),
+                (new[] { "ł", "1", "l" }, "i")
+            };
+
         // TargetString: Text from Screenshot, SourceString: Text from OCR 
         public static bool IsTruncated(string TargetString, string SourceString)
         {
@@ -23,13 +35,16 @@ namespace Truncation
         }
 
         //TODO
-        // Replace similar such as i, 1 with l
-        // $ with s
         // Do it in some better way instead of one by one.
         public static string ReplaceSimilar(string String)
         {
-            String = String.Replace("1", "i", StringComparison.InvariantCultureIgnoreCase);
-            String = String.Replace("l", "i", StringComparison.InvariantCultureIgnoreCase);
+            foreach (var (targets, replacement) in replacements)
+            {
+                foreach (var target in targets)
+                {
+                    String = String.Replace(target, replacement, StringComparison.InvariantCultureIgnoreCase);
+                }
+            }
 
             return String;
         }

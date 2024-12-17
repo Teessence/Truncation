@@ -5,12 +5,10 @@ namespace Truncation
 {
     public class OpticalCharacterRecognition
     {
-        //TODO
-        // Should return values based on characters in targetstring, so if it cotains japanese characters only shuld terun jap etc...
-        // if Polish + English should return pol+eng
-        // Write tests for it
         public static string GetTesseractEngineLanguageByTargetString(string TargetString)
         {
+            TargetString = StringOperations.ReplaceSimilar(TargetString);
+
             var uniqueCharacters = StringOperations.GetUniqueCharacters(TargetString);
 
             List<string> TesseractLanguages = [];
@@ -18,7 +16,11 @@ namespace Truncation
             foreach (var character in uniqueCharacters)
             {
                 string Language = GetCharacterLanguage(character);
-                TesseractLanguages.Add(Language);
+
+                if (Language.Length > 0)
+                {
+                    TesseractLanguages.Add(Language);
+                }
             }
 
             TesseractLanguages = TesseractLanguages.Distinct().ToList();
@@ -90,6 +92,8 @@ namespace Truncation
             {
                 return "";
             }
+
+            Console.WriteLine("Running language: " + TesseractLanguage);
 
             using (var engine = new TesseractEngine(@"C:\tessdata_best-main\tessdata_best-main", GetTesseractEngineLanguageByTargetString(TesseractLanguage), EngineMode.Default))
             {

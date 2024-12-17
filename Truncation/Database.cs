@@ -6,7 +6,7 @@ namespace Truncation
     {
         public static void SaveCharacter(char c, int IdOfLanguage)
         {
-            string connectionString = $"Data Source=Database.db;";  // Your SQLite connection string
+            string connectionString = $"Data Source=Database.db;";
 
             try
             {
