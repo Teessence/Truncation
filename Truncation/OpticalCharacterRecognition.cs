@@ -93,9 +93,7 @@ namespace Truncation
                 return "";
             }
 
-            Console.WriteLine("Running language: " + TesseractLanguage);
-
-            using (var engine = new TesseractEngine(@"C:\tessdata_best-main\tessdata_best-main", GetTesseractEngineLanguageByTargetString(TesseractLanguage), EngineMode.Default))
+            using (var engine = new TesseractEngine(@"C:\tessdata_best-main\tessdata_best-main", TesseractLanguage, EngineMode.Default))
             {
                 using (var pix = Pix.LoadFromMemory(Screenshot))
                 {
