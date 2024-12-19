@@ -6,6 +6,17 @@ namespace Truncation
 
         public static List<(string[] targets, string replacement)> replacements = new List<(string[] targets, string replacement)>
             {
+                (new[] { "أ", "إ", "آ" }, "ا"),
+                (new[] { "ة" }, "ه"),
+                (new[] { "ب", "ى", "ي", "ئ" }, "ي"),
+                (new[] { "ف", "ق" }, "ف"),
+                (new[] { "ح", "ج", "خ" }, "ح"),
+                (new[] { "س", "ش" }, "س"),
+                (new[] { "ص", "ض" }, "ص"),
+                (new[] { "ط", "ظ" }, "ط"),
+                (new[] { "ع", "غ" }, "ع"),
+                (new[] { "و", "ؤ" }, "و"),
+                (new[] { "ه", "ح" }, "ه"),
                 (new[] { "ż", "ź", "ž" }, "z"),
                 (new[] { "в" }, "b"),
                 (new[] { "а́", "а", "á", "à", "ą", "â", "ä" }, "a"),
