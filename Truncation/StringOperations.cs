@@ -2,16 +2,24 @@ namespace Truncation
 {
     public class StringOperations
     {
+        //(new[] { "" }, ""),
+
         public static List<(string[] targets, string replacement)> replacements = new List<(string[] targets, string replacement)>
             {
-                (new[] { "ż", "ź" }, "z"),
-                (new[] { "á", "ą" }, "a"),
-                (new[] { "é", "ę" }, "e"),
-                (new[] { "ö", "ó" }, "o"),
-                (new[] { "ć" }, "c"),
-                (new[] { "ń" }, "n"),
-                (new[] { "ś", "$" }, "s"),
-                (new[] { "ł", "1", "l" }, "i")
+                (new[] { "ż", "ź", "ž" }, "z"),
+                (new[] { "в" }, "b"),
+                (new[] { "а́", "а", "á", "à", "ą", "â", "ä" }, "a"),
+                (new[] { "е́", "ё", "е", "é", "è", "ę", "ê", "ë" }, "e"),
+                (new[] { "ö", "ó", "ô", "о́" }, "o"),
+                (new[] { "ć", "ç", "č" }, "c"),
+                (new[] { "ń", "ň" }, "n"),
+                (new[] { "ś", "$", "š" }, "s"),
+                (new[] { "і́", "ł", "1", "l", "î", "ï", "ì", "í", "ľ" }, "i"),
+                (new[] { "ù", "ú", "û", "ü" }, "u"),
+                (new[] { "ÿ", "ý", "у́" }, "y"),
+                (new[] { "ď" }, "d"),
+                (new[] { "ř", "г" }, "r"),
+                (new[] { "ť" }, "t")
             };
 
         // TargetString: Text from Screenshot, SourceString: Text from OCR 
