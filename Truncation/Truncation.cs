@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using Microsoft.Extensions.Configuration;
 
 namespace Truncation
 {

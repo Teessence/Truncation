@@ -2,8 +2,6 @@ namespace Truncation
 {
     public class StringOperations
     {
-        //(new[] { "" }, ""),
-
         public static List<(string[] targets, string replacement)> replacements = new List<(string[] targets, string replacement)>
             {
                 (new[] { "أ", "إ", "آ" }, "ا"),
@@ -53,8 +51,6 @@ namespace Truncation
             return returnable;
         }
 
-        //TODO
-        // Do it in some better way instead of one by one.
         public static string ReplaceSimilar(string String)
         {
             foreach (var (targets, replacement) in replacements)
