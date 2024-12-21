@@ -142,7 +142,7 @@ namespace Truncation
 
             try
             {
-                using (var connection = new SqliteConnection($"Data Source=Database.db;"))
+                using (var connection = new SqliteConnection(SQLiteDatabaseConnection))
                 {
                     connection.Open();
 
