@@ -4,13 +4,13 @@ namespace Truncation
 {
     public class Database
     {
+        public static string SQLiteDatabaseConnection = Global.config["ConnectionStrings:SQLiteDatabaseConnection"];
+
         public static void SaveCharacter(char c, int IdOfLanguage)
         {
-            string connectionString = $"Data Source=Database.db;";
-
             try
             {
-                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                using (SqliteConnection connection = new SqliteConnection(SQLiteDatabaseConnection))
                 {
                     connection.Open();
 
@@ -71,13 +71,11 @@ namespace Truncation
 
         public static int GetIdOfLanguage(string Language)
         {
-            string connectionString = $"Data Source=Database.db;";
-
             int languageId = -1;
 
             try
             {
-                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                using (SqliteConnection connection = new SqliteConnection(SQLiteDatabaseConnection))
                 {
                     connection.Open();
 
@@ -106,11 +104,9 @@ namespace Truncation
 
         public static void InsertIntoTesseractLanguages(string languageCode, int priority)
         {
-            string connectionString = $"Data Source=Database.db;";
-
             try
             {
-                using (SqliteConnection connection = new SqliteConnection(connectionString))
+                using (SqliteConnection connection = new SqliteConnection(SQLiteDatabaseConnection))
                 {
                     connection.Open();
 

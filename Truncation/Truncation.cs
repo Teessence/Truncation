@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Microsoft.Extensions.Configuration;
 
 namespace Truncation
 {
@@ -100,6 +101,8 @@ namespace Truncation
 
         public static List<int> Analyze(string ScreenshotPath, List<TextSegment> TextSegments)
         {
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
             //Training.Train();
 
             Size ScreenshotSize = ImageOperations.GetScreenshotSize(ScreenshotPath);

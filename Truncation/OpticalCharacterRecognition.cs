@@ -1,10 +1,11 @@
-using Microsoft.Data.Sqlite;
 using Tesseract;
 
 namespace Truncation
 {
     public class OpticalCharacterRecognition
     {
+        public static string SQLiteDatabaseConnection = Global.config["ConnectionStrings:SQLiteDatabaseConnection"];
+
         public static List<string> GetTesseractEngineLanguagesByTargetString(string TargetString)
         {
             HashSet<char> uniqueCharacters = StringOperations.GetUniqueCharacters(TargetString);
@@ -26,8 +27,6 @@ namespace Truncation
             return TesseractLanguages;
         }
 
-        //TODO
-        // replace hardcoded path with Settings one
         // Returns whether strings is truncated or not (bool).
         public static bool RunOpticalCharacterRecognition(byte[] Screenshot, string TargetString)
         {
@@ -46,7 +45,7 @@ namespace Truncation
                 Console.WriteLine("Running tesseractLanguages: " + TesseractLanguage);
                 Console.WriteLine(TargetString);
 
-                using (var engine = new TesseractEngine(@"C:\tessdata_best-main\tessdata_best-main", TesseractLanguage, EngineMode.Default))
+                using (var engine = new TesseractEngine(Global.TessdataFolderPath, TesseractLanguage, EngineMode.Default))
                 {
                     using (var pix = Pix.LoadFromMemory(Screenshot))
                     {
@@ -54,7 +53,8 @@ namespace Truncation
                         {
                             string text = page.GetText();
 
-                            if(!StringOperations.IsTruncated(TargetString, text)) {
+                            if (!StringOperations.IsTruncated(TargetString, text))
+                            {
                                 returnable = false;
                                 break;
                             }
