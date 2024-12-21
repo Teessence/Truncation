@@ -7,5 +7,14 @@
         "Y": 139,
         "Width": 582,
         "Height": 177
+    },
+    {
+        "Id": 16,
+        "TextId": 1,
+        "Text": "NOWOŚĆ! Centrum zasobów dotyczących prywatności McAfee: Masz prawo do poczucia bezpieczeństwa i prywatności w Internecie. Dowiedz się, jak chronić swoją prywatność.",
+        "X": 934,
+        "Y": 81,
+        "Width": 1567,
+        "Height": 28
     }
 ]

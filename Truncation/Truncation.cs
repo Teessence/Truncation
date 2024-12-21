@@ -68,9 +68,9 @@ namespace Truncation
 
                             byte[] byteArray = ImageOperations.ImageToByteArray(transformedImage);
 
-                            var ReceivedString = OpticalCharacterRecognition.RunOpticalCharacterRecognition(byteArray, ts.Text);
+                            bool IsTruncated = OpticalCharacterRecognition.RunOpticalCharacterRecognition(byteArray, ts.Text);
 
-                            if (!StringOperations.IsTruncated(ts.Text, ReceivedString))
+                            if (!IsTruncated)
                             {
                                 IsTextSegmentTruncated = false;
                                 break;

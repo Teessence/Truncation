@@ -3,9 +3,6 @@ https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html
 Please provide me lowercase Belarusian without spaces between, Alphabet, Punctuation, Currencies and special characters, numbers. Include possible accented characters too.Please provide all those in one line for easy copy.
 
 Trainings left
-aze	Azerbaijani	 	x	x	x	x	x
-aze_cyrl	Azerbaijani - Cyrilic	x	x	x	x	x	x
-ben	Bengali	x	x	x	x	x	x
 bod	Tibetan	 	x	x	x	x	x
 bos	Bosnian	 	x	x	x	x	x
 bre	Breton	 	 	x	x	x	x
@@ -21,7 +18,6 @@ deu	German	x	x	x	x	x	x
 deu_frak	German - Fraktur (contrib)	x	x	 	 	 	 
 deu_latf	German (Fraktur Latin)	 	 	x	x	x	x
 dzo	Dzongkha	 	x	x	x	x	x
-ell	Greek, Modern (1453-)	x	x	x	x	x	x
 enm	English, Middle (1100-1500)	x	x	x	x	x	x
 epo	Esperanto	x	x	x	x	x	x
 equ	Math / equation detection module	x	x	 	x	x	x

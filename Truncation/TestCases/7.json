@@ -1,0 +1,20 @@
+[
+    {
+        "Id": 1432,
+        "TextId": 1,
+        "Text": "Lorem ipsum dolor.",
+        "X": 117,
+        "Y": 146,
+        "Width": 322,
+        "Height": 100
+    },
+    {
+        "Id": 14443,
+        "TextId": 1,
+        "Text": "Lorem ipsum dolor.",
+        "X": 521,
+        "Y": 146,
+        "Width": 322,
+        "Height": 100
+    }
+]

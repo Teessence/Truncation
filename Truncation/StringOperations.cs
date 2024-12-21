@@ -120,5 +120,25 @@ namespace Truncation
 
             return uniqueChars;
         }
+
+        public static List<string> GetAllCombinations(List<string> input)
+        {
+            List<string> results = new List<string>();
+            GenerateCombinations(input, 0, "", results);
+            return results;
+        }
+
+        public static void GenerateCombinations(List<string> input, int index, string current, List<string> results)
+        {
+            if (index == input.Count)
+            {
+                if (!string.IsNullOrEmpty(current))
+                    results.Add(current);
+                return;
+            }
+
+            GenerateCombinations(input, index + 1, current + (string.IsNullOrEmpty(current) ? "" : "+") + input[index], results);
+            GenerateCombinations(input, index + 1, current, results);
+        }
     }
 }

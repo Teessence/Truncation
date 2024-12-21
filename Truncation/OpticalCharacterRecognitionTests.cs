@@ -7,9 +7,9 @@ namespace Truncation.Tests
         [Test]
         public static void GetTesseractEngineLanguageByTargetString()
         {
-            Assert.AreEqual("eng", OpticalCharacterRecognition.GetTesseractEngineLanguageByTargetString("Welcome, John"));
-            Assert.AreEqual("eng", OpticalCharacterRecognition.GetTesseractEngineLanguageByTargetString("Welcome, Zdzisław"));
-            Assert.AreEqual("eng", OpticalCharacterRecognition.GetTesseractEngineLanguageByTargetString("ł"));
+            Assert.AreEqual(new List<string> { "eng" }, OpticalCharacterRecognition.GetTesseractEngineLanguagesByTargetString("Welcome, John"));
+            Assert.AreEqual(new List<string> { "eng+pol", "eng", "pol" }, OpticalCharacterRecognition.GetTesseractEngineLanguagesByTargetString("Welcome, Zdzisław"));
+            Assert.AreEqual(new List<string> { "pol" }, OpticalCharacterRecognition.GetTesseractEngineLanguagesByTargetString("ł"));
         }
     }
 }
